@@ -1,0 +1,79 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Sphere "Sphere" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Sphere/DefaultMaterial>
+        double radius = 0.1
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Sphere/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                float inputs:clearcoat
+                float inputs:clearcoatRoughness
+                color3f inputs:diffuseColor.connect = </Root/Sphere/DefaultMaterial/Add.outputs:out>
+                color3f inputs:emissiveColor.connect = None
+                float inputs:metallic = 1
+                float3 inputs:normal
+                float inputs:opacity
+                float inputs:roughness = 0
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-218.5586, 94.328125)
+                int ui:nodegraph:node:stackingOrder = 24
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["Advanced"]
+            }
+
+            def Shader "EnvironmentRadiance"
+            {
+                uniform token info:id = "ND_realitykit_environment_radiance"
+                half inputs:metallic = 0
+                float3 inputs:normal
+                half inputs:specular = 1
+                color3f outputs:diffuseRadiance
+                color3f outputs:specularRadiance
+                float2 ui:nodegraph:node:pos = (-555.77734, 31.996094)
+                int ui:nodegraph:node:stackingOrder = 13
+            }
+
+            def Shader "Add"
+            {
+                uniform token info:id = "ND_add_color3"
+                color3f inputs:in1.connect = </Root/Sphere/DefaultMaterial/EnvironmentRadiance.outputs:diffuseRadiance>
+                color3f inputs:in2.connect = </Root/Sphere/DefaultMaterial/EnvironmentRadiance.outputs:specularRadiance>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-376.2578, 98.42969)
+                int ui:nodegraph:node:stackingOrder = 20
+            }
+        }
+    }
+}
+

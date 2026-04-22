@@ -1,0 +1,128 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+        float3 xformOp:scale = (1.5, 1.5, 1.5)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/ShadowReceivingOcclusionSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "ShadowReceivingOcclusionSurface"
+            {
+                uniform token info:id = "ND_realitykit_shadowreceiver_surfaceshader"
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-278.5547, 58.492188)
+                int ui:nodegraph:node:stackingOrder = 4
+            }
+        }
+    }
+
+    def Sphere "Sphere" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Sphere/DefaultMaterial>
+        double radius = 0.1
+        float3 xformOp:translate = (0.1, 0.1, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            prepend token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+
+    def Xform "DirectionalLight" (
+        customData = {
+            float3 rotationEulerHint = (-1.4926633, 0, 0)
+        }
+    )
+    {
+        quatf xformOp:orient = (0.73418444, -0.6789501, 0, 0)
+        float3 xformOp:translate = (0.008466293, 0.48445222, 0.00016513161)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "DirectionalLight"
+        {
+            float3 color = (0.9999908, 1, 1)
+            token info:id = "RealityKit.DirectionalLight"
+            float intensity = 1145.707
+
+            def RealityKitStruct "Shadow"
+            {
+            }
+        }
+    }
+
+    def Sphere "Sphere_1" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Sphere_1/DefaultMaterial>
+        double radius = 0.1
+        float2 ui:nodegraph:node:pos = (-143.65234, 89.74609)
+        int ui:nodegraph:node:stackingOrder = 1
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (0.2, 0.2, 0.2)
+        float3 xformOp:translate = (0, 0.2, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Sphere_1/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+            def Shader "DefaultSurfaceShader"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+        }
+    }
+}
+

@@ -1,0 +1,89 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor.connect = </Root/Cube/DefaultMaterial/Convert.outputs:out>
+                float inputs:metallic
+                float inputs:opacity
+                float inputs:roughness
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-255, 105)
+            }
+
+            def Shader "Time"
+            {
+                uniform token info:id = "ND_time_float"
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-970.35547, 134.17578)
+                int ui:nodegraph:node:stackingOrder = 78
+            }
+
+            def Shader "Sin"
+            {
+                uniform token info:id = "ND_sin_float"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Time.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-818.3828, 129.79688)
+                int ui:nodegraph:node:stackingOrder = 78
+            }
+
+            def Shader "Convert"
+            {
+                uniform token info:id = "ND_convert_float_color3"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Remap.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-445.73047, 80.87109)
+                int ui:nodegraph:node:stackingOrder = 81
+            }
+
+            def Shader "Remap"
+            {
+                uniform token info:id = "ND_remap_float"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Sin.outputs:out>
+                float inputs:inlow = -1
+                float inputs:outhigh
+                float inputs:outlow
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-629.83203, 104.30469)
+                int ui:nodegraph:node:stackingOrder = 83
+            }
+        }
+    }
+}
+

@@ -1,0 +1,99 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor.connect = </Root/Cube/DefaultMaterial/Convert.outputs:out>
+                float inputs:metallic
+                float inputs:roughness
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-255, 105)
+            }
+
+            def Shader "Mix"
+            {
+                uniform token info:id = "ND_mix_float"
+                float inputs:bg
+                float inputs:fg = 1
+                float inputs:mix.connect = </Root/Cube/DefaultMaterial/Separate2.outputs:outx>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-743.03705, -24.648798)
+                int ui:nodegraph:node:stackingOrder = 161
+            }
+
+            def Shader "SmoothStep"
+            {
+                uniform token info:id = "ND_smoothstep_float"
+                float inputs:high
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Separate2.outputs:outx>
+                float inputs:low
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-741.91943, 134.82129)
+                int ui:nodegraph:node:stackingOrder = 159
+            }
+
+            def Shader "Convert"
+            {
+                uniform token info:id = "ND_convert_float_color3"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Mix.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-444.29688, 104.79297)
+                int ui:nodegraph:node:stackingOrder = 11
+            }
+
+            def Shader "TextureCoordinates"
+            {
+                uniform token info:id = "ND_texcoord_vector2"
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-1281.6903, 35.370136)
+                int ui:nodegraph:node:stackingOrder = 156
+            }
+
+            def Shader "Separate2"
+            {
+                uniform token info:id = "ND_separate2_vector2"
+                float2 inputs:in.connect = </Root/Cube/DefaultMaterial/TextureCoordinates.outputs:out>
+                float outputs:outx
+                float outputs:outy
+                float2 ui:nodegraph:node:pos = (-1053.0261, 43.20933)
+                int ui:nodegraph:node:stackingOrder = 156
+            }
+        }
+    }
+}
+

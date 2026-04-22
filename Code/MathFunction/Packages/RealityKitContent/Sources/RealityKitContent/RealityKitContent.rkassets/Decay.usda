@@ -1,0 +1,159 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (-36.859188, 155.97734)
+            int ui:nodegraph:realitykit:subgraphOutputs:stackingOrder = 208
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor.connect = </Root/Cube/DefaultMaterial/Convert.outputs:out>
+                float inputs:roughness
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-255, 105)
+            }
+
+            def Shader "TextureCoordinates"
+            {
+                uniform token info:id = "ND_texcoord_vector2"
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-1182.9005, 86.19246)
+                int ui:nodegraph:node:stackingOrder = 348
+            }
+
+            def Shader "Separate2"
+            {
+                uniform token info:id = "ND_separate2_vector2"
+                float2 inputs:in.connect = </Root/Cube/DefaultMaterial/TextureCoordinates.outputs:out>
+                float outputs:outx
+                float outputs:outy
+                float2 ui:nodegraph:node:pos = (-979.5373, 84.426834)
+                int ui:nodegraph:node:stackingOrder = 348
+            }
+
+            def Shader "Add"
+            {
+                uniform token info:id = "ND_add_float"
+                float inputs:in1.connect = </Root/Cube/DefaultMaterial/Separate2.outputs:outx>
+                float inputs:in2 = 1
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-797.1115, 123.49323)
+                int ui:nodegraph:node:stackingOrder = 460
+            }
+
+            def Shader "Convert"
+            {
+                uniform token info:id = "ND_convert_float_color3"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Divide_1.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-433.81384, 74.01339)
+                int ui:nodegraph:node:stackingOrder = 210
+            }
+
+            def Shader "Divide_1"
+            {
+                uniform token info:id = "ND_divide_float"
+                float inputs:in1 = 1
+                float inputs:in1.connect = None
+                float inputs:in2.connect = </Root/Cube/DefaultMaterial/Power.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-564.76117, 134.92816)
+                int ui:nodegraph:node:stackingOrder = 460
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["outputs:out"]
+            }
+
+            def Shader "Exp"
+            {
+                uniform token info:id = "ND_exp_float"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Separate2.outputs:outx>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-697.181, 60.510468)
+                int ui:nodegraph:node:stackingOrder = 400
+            }
+
+            def Shader "Divide_2"
+            {
+                uniform token info:id = "ND_divide_float"
+                float inputs:in1 = 1
+                float inputs:in1.connect = None
+                float inputs:in2.connect = </Root/Cube/DefaultMaterial/Exp.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-561.36066, 59.960144)
+                int ui:nodegraph:node:stackingOrder = 466
+            }
+
+            def Shader "Power"
+            {
+                uniform token info:id = "ND_power_float"
+                float inputs:in1.connect = </Root/Cube/DefaultMaterial/Add.outputs:out>
+                float inputs:in2 = 2
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-680.73016, 142.6962)
+                int ui:nodegraph:node:stackingOrder = 460
+            }
+
+            def Shader "Ln"
+            {
+                uniform token info:id = "ND_ln_float"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Add_1.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-687.08984, -1.6992188)
+                int ui:nodegraph:node:stackingOrder = 351
+            }
+
+            def Shader "Divide"
+            {
+                uniform token info:id = "ND_divide_float"
+                float inputs:in1 = 1
+                float inputs:in1.connect = None
+                float inputs:in2.connect = </Root/Cube/DefaultMaterial/Ln.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-554.2383, -5.5703125)
+                int ui:nodegraph:node:stackingOrder = 463
+            }
+
+            def Shader "Add_1"
+            {
+                uniform token info:id = "ND_add_float"
+                float inputs:in1.connect = </Root/Cube/DefaultMaterial/Separate2.outputs:outx>
+                float inputs:in2 = 2.7182817
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-809.7461, 1.4179688)
+                int ui:nodegraph:node:stackingOrder = 357
+            }
+        }
+    }
+}
+

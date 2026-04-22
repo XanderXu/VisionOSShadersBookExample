@@ -1,0 +1,125 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        reorder nameChildren = ["DefaultMaterial", "DefaultMaterial"]
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor.connect = </Root/Cube/DefaultMaterial/Convert_2.outputs:out>
+                float inputs:metallic
+                float inputs:opacity
+                float inputs:roughness
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-255, 105)
+            }
+
+            def Shader "TextureCoordinates"
+            {
+                uniform token info:id = "ND_texcoord_vector2"
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-1260.1328, 83.5625)
+                int ui:nodegraph:node:stackingOrder = 55
+            }
+
+            def Shader "Multiply"
+            {
+                uniform token info:id = "ND_multiply_vector2"
+                float2 inputs:in1.connect = </Root/Cube/DefaultMaterial/TextureCoordinates.outputs:out>
+                float2 inputs:in2 = (5, 5)
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-1079.5391, 83.60547)
+                int ui:nodegraph:node:stackingOrder = 64
+            }
+
+            def Shader "Fractional"
+            {
+                uniform token info:id = "ND_realitykit_fractional_vector2"
+                float2 inputs:in.connect = </Root/Cube/DefaultMaterial/Multiply.outputs:out>
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-930.78516, 82.53125)
+                int ui:nodegraph:node:stackingOrder = 66
+            }
+
+            def Shader "Convert"
+            {
+                uniform token info:id = "ND_convert_vector2_vector3"
+                float2 inputs:in.connect = </Root/Cube/DefaultMaterial/Fractional.outputs:out>
+                float3 outputs:out
+                float2 ui:nodegraph:node:pos = (-673.41406, 52.05078)
+                int ui:nodegraph:node:stackingOrder = 114
+            }
+
+            def Shader "Convert_1"
+            {
+                uniform token info:id = "ND_convert_vector3_color3"
+                float3 inputs:in.connect = </Root/Cube/DefaultMaterial/Convert.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-512.2656, 51.515625)
+                int ui:nodegraph:node:stackingOrder = 114
+            }
+
+            def Shader "Subtract"
+            {
+                uniform token info:id = "ND_subtract_vector2"
+                float2 inputs:in1.connect = </Root/Cube/DefaultMaterial/Fractional.outputs:out>
+                float2 inputs:in2 = (0.5, 0.5)
+                float2 outputs:out
+                float2 ui:nodegraph:node:pos = (-822.1875, 191.88281)
+                int ui:nodegraph:node:stackingOrder = 71
+            }
+
+            def Shader "Magnitude"
+            {
+                uniform token info:id = "ND_magnitude_vector2"
+                float2 inputs:in.connect = </Root/Cube/DefaultMaterial/Subtract.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-682.1836, 182.9336)
+                int ui:nodegraph:node:stackingOrder = 117
+            }
+
+            def Shader "Convert_2"
+            {
+                uniform token info:id = "ND_convert_float_color3"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/Magnitude.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-513.16406, 193.14453)
+                int ui:nodegraph:node:stackingOrder = 73
+            }
+        }
+    }
+}
+

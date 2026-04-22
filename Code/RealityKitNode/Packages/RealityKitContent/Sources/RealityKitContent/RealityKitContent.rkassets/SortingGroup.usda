@@ -1,0 +1,178 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Sphere "Sphere" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        reorder nameChildren = ["Sphere_1", "DefaultMaterial"]
+        rel material:binding = </Root/Sphere/DefaultMaterial>
+        double radius = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Sphere/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex.connect = </Root/Sphere/DefaultMaterial/GeometryModifier.outputs:out>
+            token outputs:surface.connect = </Root/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0, 0.9914394, 1) (
+                    colorSpace = "srgb_texture"
+                )
+                float inputs:opacity = 0.4
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor = (0, 0.9914394, 1) (
+                    colorSpace = "srgb_texture"
+                )
+                float inputs:opacity = 0.6
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-255, 3.609375)
+                int ui:nodegraph:node:stackingOrder = 6
+            }
+
+            def Shader "GeometryModifier"
+            {
+                uniform token info:id = "ND_realitykit_geometrymodifier_2_0_vertexshader"
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-264.4961, 274.52344)
+                int ui:nodegraph:node:stackingOrder = 9
+            }
+        }
+
+        def Sphere "Sphere_1" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            reorder nameChildren = ["Sphere_2", "DefaultMaterial"]
+            rel material:binding = </Root/Sphere/Sphere_1/DefaultMaterial>
+            double radius = 0.1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0.05, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Sphere/Sphere_1/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (0.016804177, 0.198351, 1) (
+                        colorSpace = "srgb_texture"
+                    )
+                    float inputs:opacity = 0.6
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+
+            def Sphere "Sphere_2" (
+                active = true
+                prepend apiSchemas = ["MaterialBindingAPI"]
+            )
+            {
+                rel material:binding = </Root/Sphere/Sphere_1/Sphere_2/DefaultMaterial>
+                double radius = 0.06
+                float2 ui:nodegraph:node:pos = (20, 20)
+                int ui:nodegraph:node:stackingOrder = 1
+                quatf xformOp:orient = (1, 0, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0.03, 0, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+                def Material "DefaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/Sphere/Sphere_1/Sphere_2/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                    def Shader "DefaultSurfaceShader"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (1, 0.14913142, 0) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:opacity = 0.9
+                        float inputs:roughness = 0.75
+                        token outputs:surface
+                    }
+                }
+
+                def RealityKitComponent "MeshSorting"
+                {
+                    rel group = </Root/Model_Sorting_Group>
+                    token info:id = "RealityKit.MeshSorting"
+                    int priorityInGroup = 0
+                }
+            }
+
+            def RealityKitComponent "MeshSorting"
+            {
+                rel group = </Root/Model_Sorting_Group>
+                token info:id = "RealityKit.MeshSorting"
+                int priorityInGroup = 1
+            }
+        }
+
+        def RealityKitComponent "MeshSorting"
+        {
+            rel group = </Root/Model_Sorting_Group>
+            token info:id = "RealityKit.MeshSorting"
+            int priorityInGroup = 2
+        }
+    }
+
+    def RealityKitMeshSortingGroup "Model_Sorting_Group" (
+        active = false
+    )
+    {
+        token depthPass = "None"
+    }
+
+    def RealityKitTimeline "Timeline"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Spin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 400
+                double duration = 100
+                uniform token info:id = "F7097B74-01B5-4B72-8685-CD4371176AA8"
+                float revolutions = 10
+                double startTime = 1
+                rel target = </Root/Sphere>
+
+                def RealityKitStruct "timingFunction"
+                {
+                }
+            }
+        }
+    }
+}
+

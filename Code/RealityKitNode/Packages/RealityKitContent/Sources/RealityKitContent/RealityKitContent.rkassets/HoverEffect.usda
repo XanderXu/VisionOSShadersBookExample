@@ -1,0 +1,113 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.60.2)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Cube "Cube" (
+        active = true
+        prepend apiSchemas = ["MaterialBindingAPI"]
+    )
+    {
+        rel material:binding = </Root/Cube/DefaultMaterial>
+        double size = 0.2
+
+        def Material "DefaultMaterial"
+        {
+            token outputs:mtlx:surface.connect = </Root/Cube/DefaultMaterial/PreviewSurface.outputs:out>
+            token outputs:realitykit:vertex
+            token outputs:surface.connect = </Root/Cube/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+            float2 ui:nodegraph:realitykit:subgraphOutputs:pos = (0, 110.5)
+
+            def Shader "DefaultSurfaceShader" (
+                active = false
+            )
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1, 1, 1)
+                float inputs:roughness = 0.75
+                token outputs:surface
+            }
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "ND_UsdPreviewSurface_surfaceshader"
+                color3f inputs:diffuseColor.connect = </Root/Cube/DefaultMaterial/Mix.outputs:out>
+                float inputs:metallic
+                float inputs:roughness
+                token outputs:out
+                float2 ui:nodegraph:node:pos = (-217.77344, 101.60156)
+                int ui:nodegraph:node:stackingOrder = 38
+            }
+
+            def Shader "HoverState"
+            {
+                uniform token info:id = "ND_realitykit_hover_state"
+                float outputs:intensity
+                bool outputs:isActive
+                float3 outputs:position
+                float outputs:timeSinceHoverStart
+                float2 ui:nodegraph:node:pos = (-1005.09766, 47.695312)
+                int ui:nodegraph:node:stackingOrder = 47
+                string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["outputs:intensity", "outputs:position", "outputs:position"]
+            }
+
+            def Shader "Multiply_1"
+            {
+                uniform token info:id = "ND_multiply_float"
+                float inputs:in1.connect = </Root/Cube/DefaultMaterial/HoverState.outputs:intensity>
+                float inputs:in2.connect = </Root/Cube/DefaultMaterial/Fractional.outputs:out>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-541.02344, 48.878906)
+                int ui:nodegraph:node:stackingOrder = 73
+            }
+
+            def Shader "ConstantColor3"
+            {
+                uniform token info:id = "ND_constant_color3"
+                color3f inputs:value = (0, 0, 0)
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-609.5156, -28.304688)
+                int ui:nodegraph:node:stackingOrder = 77
+            }
+
+            def Shader "Mix"
+            {
+                uniform token info:id = "ND_mix_color3"
+                color3f inputs:bg.connect = </Root/Cube/DefaultMaterial/ConstantColor3.outputs:out>
+                color3f inputs:fg.connect = </Root/Cube/DefaultMaterial/ConstantColor3_1.outputs:out>
+                float inputs:mix.connect = </Root/Cube/DefaultMaterial/Multiply_1.outputs:out>
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-389.53516, -49.679688)
+                int ui:nodegraph:node:stackingOrder = 61
+            }
+
+            def Shader "ConstantColor3_1"
+            {
+                uniform token info:id = "ND_constant_color3"
+                color3f inputs:value = (1, 0.14913142, 0) (
+                    colorSpace = "srgb_texture"
+                )
+                color3f outputs:out
+                float2 ui:nodegraph:node:pos = (-603.8906, -120.29297)
+                int ui:nodegraph:node:stackingOrder = 75
+            }
+
+            def Shader "Fractional"
+            {
+                uniform token info:id = "ND_realitykit_fractional_float"
+                float inputs:in.connect = </Root/Cube/DefaultMaterial/HoverState.outputs:timeSinceHoverStart>
+                float outputs:out
+                float2 ui:nodegraph:node:pos = (-732.15625, 68.06641)
+                int ui:nodegraph:node:stackingOrder = 83
+            }
+        }
+    }
+}
+

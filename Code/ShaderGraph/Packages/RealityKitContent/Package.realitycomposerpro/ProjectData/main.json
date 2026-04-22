@@ -1,0 +1,42 @@
+{
+  "pathsToIds" : {
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "CB766F92-EE55-4A63-9401-E7B8C009764D",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "65F6F990-A780-4474-B78B-572E0E4E273D",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "0A9B4653-B11E-4D6A-850E-C6FCB621626C",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled Scene.usda" : "D560BB77-AAF3-4BDE-B7C4-989332A4688B",
+    "\/RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Untitled%20Scene.usda" : "202B4612-6E00-4E71-BD55-CD3FF47C08F1",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/GridMaterial.usda" : "66168B71-AB05-424E-8B6C-D33D6E61B08F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Immersive.usda" : "AF09ED6F-1707-48FD-8720-65B998362C09",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Materials\/GridMaterial.usda" : "75645B32-9034-47F3-A0F2-E798C698382F",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Plane2.usda" : "19996232-33D4-4CCC-8AD8-18F2009AA921",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/Scene.usda" : "D66134B1-3681-4A8E-AFE5-29F257229F3B",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/SubdivisionPlae.usda" : "C1C50C57-F420-4E4A-8DAE-0342C3D522C1",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/SubdivisionPlane 1.usda" : "2F4CAE36-0521-4FC3-9D96-0018DC716C26",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/SubdivisionPlane.usda" : "687E8894-ECF4-491D-85E1-E08D73BCF477",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/SubdivisionPlaneNormalFixed.usda" : "3B1680EB-9FF5-4D75-AF8F-97E2852C89F7",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/SurfaceScene.usda" : "48B88348-3DEF-412B-A604-310F02A89DEC",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/UnityNode.usda" : "E8D3B90E-0979-48D2-919C-F51E5D7E1DF5",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/plane.usda" : "0A704B31-6EEF-48DB-B8B6-10AC5E0D239D",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/plane3.usda" : "F977F24C-0AFF-41D7-969B-EF8208D56C09",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/plane4.usda" : "35FBC1E6-E733-4C35-BCD7-B2072D259473",
+    "RealityKitContent\/Sources\/RealityKitContent\/RealityKitContent.rkassets\/未命名.usda" : "E3DB1A0E-4261-4765-BC8E-1A9F3877EFB8"
+  },
+  "projectID" : -1024243696664092356,
+  "uuidToIntID" : {
+    "0A704B31-6EEF-48DB-B8B6-10AC5E0D239D" : 639995377864902475,
+    "19996232-33D4-4CCC-8AD8-18F2009AA921" : -6645704347579766970,
+    "202B4612-6E00-4E71-BD55-CD3FF47C08F1" : -3259819163268999742,
+    "2F4CAE36-0521-4FC3-9D96-0018DC716C26" : -2530734711215185055,
+    "35FBC1E6-E733-4C35-BCD7-B2072D259473" : -5885837838147119827,
+    "3B1680EB-9FF5-4D75-AF8F-97E2852C89F7" : -2197445961528924742,
+    "48B88348-3DEF-412B-A604-310F02A89DEC" : -5031895013409504270,
+    "687E8894-ECF4-491D-85E1-E08D73BCF477" : -1065319868033135670,
+    "75645B32-9034-47F3-A0F2-E798C698382F" : -3835668061096915801,
+    "AF09ED6F-1707-48FD-8720-65B998362C09" : 2284321254681533097,
+    "C1C50C57-F420-4E4A-8DAE-0342C3D522C1" : 851666602911917279,
+    "D66134B1-3681-4A8E-AFE5-29F257229F3B" : -871174990535870996,
+    "E3DB1A0E-4261-4765-BC8E-1A9F3877EFB8" : -3398035686183613008,
+    "E8D3B90E-0979-48D2-919C-F51E5D7E1DF5" : -8144869916562728442,
+    "F977F24C-0AFF-41D7-969B-EF8208D56C09" : -1559364763844552180
+  }
+}

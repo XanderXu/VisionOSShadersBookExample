@@ -1,0 +1,237 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.60.4)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def "toy_car" (
+        active = true
+        prepend references = @toy_car/toy_car.usdc@
+    )
+    {
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Looks"
+        {
+            over "toy_car_realistic_mat"
+            {
+                token cullMode = "unspecified" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                token outputs:realitykit:vertex
+            }
+        }
+    }
+
+    def "toy_car_1" (
+        active = true
+        prepend references = @toy_car/toy_car.usdc@
+    )
+    {
+        float2 ui:nodegraph:node:pos = (18.2071, 186.06775)
+        int ui:nodegraph:node:stackingOrder = 1
+        float3 xformOp:scale = (0.01, 0.01, 0.01)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        over "Looks"
+        {
+            over "toy_car_realistic_mat"
+            {
+                token cullMode = "front" (
+                    allowedTokens = ["unspecified", "none", "front", "back"]
+                )
+                token outputs:mtlx:surface.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/UnlitSurface.outputs:out>
+                token outputs:realitykit:vertex.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/GeometryModifier.outputs:out>
+
+                def Shader "GeometryModifier"
+                {
+                    uniform token info:id = "ND_realitykit_geometrymodifier_2_0_vertexshader"
+                    float3 inputs:bitangent
+                    color4f inputs:color
+                    float3 inputs:modelPositionOffset.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Multiply_1.outputs:out>
+                    float3 inputs:normal
+                    float2 inputs:uv0
+                    float2 inputs:uv1
+                    float4 inputs:uv2
+                    float4 inputs:uv3
+                    float4 inputs:uv5
+                    float4 inputs:uv6
+                    float4 inputs:uv7
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (112.98984, 277.82986)
+                    int ui:nodegraph:node:stackingOrder = 186
+                }
+
+                def Shader "Multiply"
+                {
+                    uniform token info:id = "ND_multiply_vector3FA"
+                    float3 inputs:in1.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Normal.outputs:out>
+                    float inputs:in2 = 0.5
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-425.69052, 178.94435)
+                    int ui:nodegraph:node:stackingOrder = 279
+                }
+
+                def Shader "Normal"
+                {
+                    uniform token info:id = "ND_normal_vector3"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-616.98114, 165.7267)
+                    int ui:nodegraph:node:stackingOrder = 266
+                }
+
+                over "PreviewSurface" (
+                    active = false
+                )
+                {
+                    color3f inputs:diffuseColor = (1, 0.14913142, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    delete color3f inputs:diffuseColor.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Image.outputs:out>
+                    delete float inputs:metallic.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Image_2.outputs:out>
+                    delete float3 inputs:normal.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Image_3.outputs:out>
+                    delete float inputs:occlusion.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Image_4.outputs:out>
+                    float inputs:opacity.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Power.outputs:out>
+                    delete float inputs:roughness.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Image_1.outputs:out>
+                    int ui:nodegraph:node:stackingOrder = 168
+                }
+
+                over "Image" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 244
+                }
+
+                over "Image_4" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 244
+                }
+
+                over "Image_2" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 244
+                }
+
+                over "Image_3" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 244
+                }
+
+                over "Image_1" (
+                    active = false
+                )
+                {
+                    int ui:nodegraph:node:stackingOrder = 244
+                }
+
+                def Shader "ViewDirection"
+                {
+                    uniform token info:id = "ND_realitykit_viewdirection_vector3"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-329.67627, -51.7941)
+                    int ui:nodegraph:node:stackingOrder = 147
+                }
+
+                def Shader "Normal_1"
+                {
+                    uniform token info:id = "ND_normal_vector3"
+                    string inputs:space = "world"
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-320.86548, 30.266808)
+                    int ui:nodegraph:node:stackingOrder = 147
+                }
+
+                def Shader "Power"
+                {
+                    uniform token info:id = "ND_power_float"
+                    float inputs:in1.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/DotProduct.outputs:out>
+                    float inputs:in2 = 1.2
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (59.296387, 18.978111)
+                    int ui:nodegraph:node:stackingOrder = 288
+                }
+
+                def Shader "DotProduct"
+                {
+                    uniform token info:id = "ND_dotproduct_vector3"
+                    float3 inputs:in1.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/ViewDirection.outputs:out>
+                    float3 inputs:in2.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Normal_1.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-104.41284, -51.58292)
+                    int ui:nodegraph:node:stackingOrder = 147
+                }
+
+                def Shader "UnlitSurface"
+                {
+                    uniform token info:id = "ND_realitykit_unlit_surfaceshader"
+                    bool inputs:applyPostProcessToneMap = 0
+                    color3f inputs:color = (1, 0.14913142, 0) (
+                        colorSpace = "srgb_texture"
+                    )
+                    bool inputs:hasPremultipliedAlpha = 0
+                    float inputs:opacity.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Power.outputs:out>
+                    float inputs:opacityThreshold
+                    token outputs:out
+                    float2 ui:nodegraph:node:pos = (284.898, -30.00359)
+                    int ui:nodegraph:node:stackingOrder = 293
+                    string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:color"]
+                }
+
+                def Shader "Time"
+                {
+                    uniform token info:id = "ND_time_float"
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-642.97797, 319.24573)
+                    int ui:nodegraph:node:stackingOrder = 267
+                }
+
+                def Shader "Sin"
+                {
+                    uniform token info:id = "ND_sin_float"
+                    float inputs:in.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Time.outputs:out>
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-458.0431, 336.17398)
+                    int ui:nodegraph:node:stackingOrder = 290
+                }
+
+                def Shader "Remap"
+                {
+                    uniform token info:id = "ND_remap_float"
+                    float inputs:in.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Sin.outputs:out>
+                    float inputs:inhigh
+                    float inputs:inlow = -1
+                    float inputs:outhigh
+                    float inputs:outlow
+                    float outputs:out
+                    float2 ui:nodegraph:node:pos = (-293.2832, 337.40744)
+                    int ui:nodegraph:node:stackingOrder = 286
+                }
+
+                def Shader "Multiply_1"
+                {
+                    uniform token info:id = "ND_multiply_vector3FA"
+                    prepend float3 inputs:in1.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Multiply.outputs:out>
+                    float inputs:in2.connect = </Root/toy_car_1/Looks/toy_car_realistic_mat/Remap.outputs:out>
+                    float3 outputs:out
+                    float2 ui:nodegraph:node:pos = (-159.28197, 196.94824)
+                    int ui:nodegraph:node:stackingOrder = 283
+                }
+            }
+        }
+    }
+}
+
